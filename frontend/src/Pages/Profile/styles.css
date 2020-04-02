@@ -61,7 +61,6 @@
 }
 
 .profile-container ul li button{
-    position:absolute;
     right: 24px;
     top: 24px;
     border: 0;
@@ -85,4 +84,10 @@
     color: #737380;
     line-height: 21px;
     font-size: 16px;
+}
+
+.buttonEdit {
+    right: 24px;
+    top: 24px;
+    border: 0;
 }

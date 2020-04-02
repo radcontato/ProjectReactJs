@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { FiPower, FiTrash2 } from 'react-icons/fi';
+import { FiEdit2, FiPower, FiTrash2 } from 'react-icons/fi';
 
 import api from '../../Services/api';
 
@@ -26,6 +26,18 @@ export default function Profile() {
         })
     }, [ongId]);
 
+
+    async function handleEditIncident(id) {
+        history.push({
+
+            pathname: `/incidents/edit/${id}`,
+            state: {
+                id: 7,
+                color: 'green'
+            }
+
+        });
+    }
 
     async function handleDeleteIncident(id) {
         try {
@@ -69,6 +81,15 @@ export default function Profile() {
                 {incidents.map(incident => (
 
                     <li key={incident.id}>
+                        <button onClick={() => handleEditIncident(incident.id, incident.title, incident.description, incident.value)} type="button">
+                            <FiEdit2 size={20} color="#a8a8b3" />
+                        </button>
+
+
+                        <button onClick={() => handleDeleteIncident(incident.id)} type="button">
+                            <FiTrash2 size={20} color="#a8a8b3" />
+                        </button>
+
                         <strong>CASO:</strong>
                         <p>{incident.title}</p>
 
@@ -82,9 +103,10 @@ export default function Profile() {
                                 currency: 'BRL'
                             }).format(incident.value)}</p>
 
-                        <button onClick={() => handleDeleteIncident(incident.id)} type="button">
-                            <FiTrash2 size={20} color="#a8a8b3" />
-                        </button>
+
+
+
+
                     </li>
                 ))}
             </ul>

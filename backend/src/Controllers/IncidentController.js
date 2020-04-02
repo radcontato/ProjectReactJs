@@ -2,7 +2,18 @@ const connection = require('../database/connection');
 
 module.exports = {
 
+
     async index(request, response) {
+
+        const { id } = request.params;
+
+        const incidents = await connection('incidents').where('id', id)
+
+        return response.json(incidents);
+    },
+
+
+    async list(request, response) {
 
         const { page = 1 } = request.query;
 
@@ -59,5 +70,21 @@ module.exports = {
         await connection('incidents').where('id', id).delete();
 
         return response.status(204).send();
+    },
+
+    async put(request, response) {
+
+        const { id } = request.params;
+        const { title, description, value } = request.body;
+
+        await connection('incidents').where('id', id).update({
+            title: title,
+            description: description,
+            value: value
+        });
+
+
+        return response.status(200).send();
+
     }
 };

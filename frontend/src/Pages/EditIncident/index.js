@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useState ,useEffect} from 'react';
+import { Link, useHistory,useParams } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 
 import api from '../../Services/api'
@@ -9,18 +9,28 @@ import './styles.css';
 import logoImg from '../../assets/logo.svg'
 
 
-export default function NewIncident() {
+export default function EditIncident() {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [value, setValue] = useState('');
 
+    const { id } = useParams();
+
     const history = useHistory();
 
-    const ongId = localStorage.getItem('ongId');
+    
+    useEffect(() => {
+        api.get(`incidents/${id}`).then       
+        (response => {
+            setTitle(response.data[0].title);
+            setDescription(response.data[0].description);
+            setValue(response.data[0].value);
+        })
+    }, [id]);
 
 
-    async function handleNewIncident(e) {
+    async function handleEditIncident(e) {
         e.preventDefault();
 
         const data = {
@@ -31,22 +41,18 @@ export default function NewIncident() {
 
 
         try {
-            await api.post('incidents', data, {
-                headers: {
-                    Authorization: ongId,
-                }
-            })
+            await api.put(`incidents/${id}`, data);
 
             history.push('/profile');
 
         } catch (err) {
-            alert('Erro ao cadastrar caso, tente novamente.');
+            alert('Erro ao Atualizar caso, tente novamente.');
         }
 
     }
 
 
-    return ( 
+    return (
         <div className="new-incident-container">
             <div className="content">
                 <section>
@@ -63,7 +69,7 @@ export default function NewIncident() {
                 </Link>
                 </section>
 
-                <form onSubmit={handleNewIncident}>
+                <form onSubmit={handleEditIncident}>
                     <input
                         placeholder="Título do caso"
                         value={title}

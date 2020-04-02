@@ -5,6 +5,7 @@ import Logon from './Pages/Logon';
 import Register from './Pages/Register';
 import Profile from './Pages/Profile';
 import NewIncident from './Pages/NewIncident';
+import EditIncident from './Pages/EditIncident';
 
 export default function Routes() {
     return (
@@ -14,6 +15,7 @@ export default function Routes() {
                 <Route path="/register" component={Register} />
                 <Route path="/profile" component={Profile} />
                 <Route path="/incidents/new" component={NewIncident} />
+                <Route path="/incidents/edit/:id" component={EditIncident} />
             </Switch>
         </BrowserRouter>
     );
